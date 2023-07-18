@@ -1,15 +1,38 @@
-import React, {useState} from 'react'
-
+import React, { useState, useEffect } from "react";
+import { fetchData } from "../api/fetchData";
 
 const StockList = () => {
+  const [stock, setStock] = useState();
+  const [watchList, setWatchList] = useState(["GOOGL", "MSFT", "AMZN"]);
 
-  const [watchList, setWatchList] = useState(["GOOGLE", "MSFT", "AMZ"]);
+  const getData = async () => {
+    const responces = [];
+    
+    const response1 = await fetchData("GOOGL");
+    const response2 = await fetchData("MSFT");
+    const response3 = await fetchData("AMZN");
+    
+    responces.push(response1)
+    responces.push(response2)
+    responces.push(response3)
+   
 
-  return (
-    <div>
-        Stocklist
-    </div>
-  )
-}
+    console.log(responces);
 
-export default StockList
+    return responces;
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+
+    if (isMounted) {
+      setStock(getData());
+    }
+
+    return () => (isMounted = false);
+  }, []);
+
+  return <div>Stocklist</div>;
+};
+
+export default StockList;
