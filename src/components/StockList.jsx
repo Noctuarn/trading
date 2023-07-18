@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { fetchData } from "../api/fetchData";
 
+import {BsFillCaretDownFill} from "react-icons/bs"
+import {BsFillCaretUpFill} from "react-icons/bs"
+
 const StockList = () => {
   const [stock, setStock] = useState([]);
   const [watchList, setWatchList] = useState(["GOOGL", "MSFT", "AMZN"]);
@@ -35,6 +38,15 @@ const StockList = () => {
     };
   }, []);
 
+  const changeColor = (value) => {
+    return value > 0 ? "text-success": "text-danger"
+  }
+
+  const changeIcon = (value) => {
+    return value > 0 ? <BsFillCaretUpFill/> : <BsFillCaretDownFill/>
+  }
+
+
   return (
     <table className="table hover mt-5">
       <thead style={{ color: "rgb(79,89,102)" }}>
@@ -57,8 +69,8 @@ const StockList = () => {
               <th scope="row">{index+1}</th>
               <td>{item.name}</td>
               <td>{item.data.c}</td>
-              <td>{item.data.d}</td>
-              <td>{item.data.dp}</td>
+              <td className={changeColor(item.data.d)}>{item.data.d}{changeIcon(item.data.d)}</td>
+              <td className={changeColor(item.data.dp)}>{item.data.dp}{changeIcon(item.data.dp)}</td>
               <td>{item.data.h}</td>
               <td>{item.data.l}</td>
               <td>{item.data.o}</td>
