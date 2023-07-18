@@ -6,17 +6,8 @@ const StockList = () => {
   const [watchList, setWatchList] = useState(["GOOGL", "MSFT", "AMZN"]);
 
   const getData = async () => {
-    const responces = [];
-    
-    const response1 = await fetchData("GOOGL");
-    const response2 = await fetchData("MSFT");
-    const response3 = await fetchData("AMZN");
-    
-    responces.push(response1)
-    responces.push(response2)
-    responces.push(response3)
-   
-
+    const promises = watchList.map((symbol) => fetchData(symbol));
+    const responces = await Promise.all(promises);
     console.log(responces);
 
     return responces;
