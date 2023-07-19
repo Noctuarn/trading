@@ -6,7 +6,7 @@ import {BsFillCaretUpFill} from "react-icons/bs"
 
 const StockList = () => {
   const [stock, setStock] = useState([]);
-  const [watchList, setWatchList] = useState(["GOOGL", "MSFT", "AMZN"]);
+  const [watchList, setWatchList] = useState(["GOOGL", "MSFT", "AMZN", "AAPL"]);
 
   const getData = async () => {
     const promises = watchList.map(async (symbol) => {
@@ -48,8 +48,8 @@ const StockList = () => {
 
 
   return (
-    <table className="table hover mt-5">
-      <thead style={{ color: "rgb(79,89,102)" }}>
+    <table className="table table-hover table-bordered mt-5">
+      <thead className="table-dark" style={{ color: "rgb(79,89,102)" }}>
         <tr>
           <th scope="col">№</th>
           <th scope="col">Name</th>
@@ -65,7 +65,7 @@ const StockList = () => {
       <tbody>
         {stock.map((item, index) => {
           return (
-            <tr key={index} className="table-row">
+            <tr  key={index} className="table-row">
               <th scope="row">{index+1}</th>
               <td>{item.name}</td>
               <td>{item.data.c}</td>
