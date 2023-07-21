@@ -8,7 +8,7 @@ const formatData = (data) => {
   return data.t.map((el, index) => {
     return {
       x: el * 1000,
-      y: data.c[index],
+      y: Math.floor(data.c[index])
     };
   });
 };
@@ -36,9 +36,9 @@ const StockDetailPage = () => {
       let oneYear = currentDate - 365 * 24 * 60 * 60;
 
       const responces = await Promise.all([
-        fetchHistoricalData(symbol, 30, oneDay, currentDate),
-        fetchHistoricalData(symbol, 60, oneWeek, currentDate),
-        fetchHistoricalData(symbol, "D", oneYear, currentDate),
+        fetchHistoricalData(symbol, 60, oneDay, currentDate),
+        fetchHistoricalData(symbol, "D", oneWeek, currentDate),
+        fetchHistoricalData(symbol, "M", oneYear, currentDate),
       ]);
 
       setChartData({

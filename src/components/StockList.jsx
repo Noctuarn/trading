@@ -2,18 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchData } from "../api/fetchData";
 
-import useWatchListContext from "../hooks/useWatchListContext.jsx"
+import useWatchListContext from "../hooks/useWatchListContext.jsx";
 
-import {BsFillCaretDownFill} from "react-icons/bs"
-import {BsFillCaretUpFill} from "react-icons/bs"
+import { BsFillCaretDownFill } from "react-icons/bs";
+import { BsFillCaretUpFill } from "react-icons/bs";
 
 const StockList = () => {
   const [stock, setStock] = useState([]);
- 
-  const {watchList} = useWatchListContext();
 
-  const navigate = useNavigate()
+  const { watchList, deleteStock } = useWatchListContext();
 
+  const navigate = useNavigate();
 
   const getData = async () => {
     const promises = watchList.map(async (symbol) => {
@@ -27,8 +26,6 @@ const StockList = () => {
     const responses = await Promise.all(promises);
     return responses;
   };
-
-  
 
   useEffect(() => {
     let isMounted = true;
@@ -48,16 +45,16 @@ const StockList = () => {
   }, [watchList]);
 
   const changeColor = (value) => {
-    return value > 0 ? "text-success": "text-danger"
-  }
+    return value > 0 ? "text-success" : "text-danger";
+  };
 
   const changeIcon = (value) => {
-    return value > 0 ? <BsFillCaretUpFill/> : <BsFillCaretDownFill/>
-  }
+    return value > 0 ? <BsFillCaretUpFill /> : <BsFillCaretDownFill />;
+  };
 
   const handleStockSelect = (symbol) => {
-    navigate(`/detail/${symbol}`)
-  }
+    navigate(`/detail/${symbol}`);
+  };
 
   return (
     <table className="table table-hover table-bordered mt-5">
@@ -77,16 +74,38 @@ const StockList = () => {
       <tbody>
         {stock.map((item, index) => {
           return (
-            <tr onClick={() => handleStockSelect(item.name)} key={index} className="table-row" style={{cursor: "pointer"}}>
-              <th scope="row">{index+1}</th>
+            <tr
+              onClick={() => handleStockSelect(item.name)}
+              key={index}
+              className="table-row"
+              style={{ cursor: "pointer" }}
+            >
+              <th scope="row">{index + 1}</th>
               <td>{item.name}</td>
               <td>{item.data.c}</td>
-              <td className={changeColor(item.data.d)}>{item.data.d}{changeIcon(item.data.d)}</td>
-              <td className={changeColor(item.data.dp)}>{item.data.dp}{changeIcon(item.data.dp)}</td>
+              <td className={changeColor(item.data.d)}>
+                {item.data.d}
+                {changeIcon(item.data.d)}
+              </td>
+              <td className={changeColor(item.data.dp)}>
+                {item.data.dp}
+                {changeIcon(item.data.dp)}
+              </td>
               <td>{item.data.h}</td>
               <td>{item.data.l}</td>
               <td>{item.data.o}</td>
-              <td>{item.data.pc}</td>
+              <td className="d-flex justify-content-between">
+                {item.data.pc}{" "}
+                <button
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    deleteStock(item.name);
+                  }}
+                  className="btn btn-danger bt-small btn-delete"
+                >
+                  Remove
+                </button>
+              </td>
             </tr>
           );
         })}
