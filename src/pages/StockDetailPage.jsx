@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { fetchHistoricalData } from "../api/fetchData";
 import StockChart from "../components/StockChart";
+import Loading from "../components/Loading";
 
 const formatData = (data) => {
   return data.t.map((el, index) => {
@@ -15,7 +16,7 @@ const formatData = (data) => {
 
 const StockDetailPage = () => {
   const [chartData, setChartData] = useState();
-  const { symbol } = useParams();
+  const {symbol} = useParams();
 
   useEffect(() => {
     const getData = async () => {
@@ -53,11 +54,11 @@ const StockDetailPage = () => {
 
   return (
     <div>
-      {chartData && (
+      {chartData ? (
         <div>
           <StockChart chartData={chartData} symbol={symbol} />{" "}
         </div>
-      )}
+      ) : <Loading/>}
     </div>
   );
 };
