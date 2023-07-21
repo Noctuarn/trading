@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { fetchData } from "../api/fetchData";
+
+import useWatchListContext from "../hooks/useWatchListContext.jsx"
 
 import {BsFillCaretDownFill} from "react-icons/bs"
 import {BsFillCaretUpFill} from "react-icons/bs"
 
 const StockList = () => {
   const [stock, setStock] = useState([]);
-  const [watchList, setWatchList] = useState(["GOOGL", "MSFT", "AMZN", "AAPL"]);
+ 
+  const {watchList} = useWatchListContext();
+
+  const navigate = useNavigate()
+
 
   const getData = async () => {
     const promises = watchList.map(async (symbol) => {
@@ -20,6 +27,8 @@ const StockList = () => {
     const responses = await Promise.all(promises);
     return responses;
   };
+
+  
 
   useEffect(() => {
     let isMounted = true;
@@ -36,7 +45,7 @@ const StockList = () => {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [watchList]);
 
   const changeColor = (value) => {
     return value > 0 ? "text-success": "text-danger"
@@ -46,6 +55,9 @@ const StockList = () => {
     return value > 0 ? <BsFillCaretUpFill/> : <BsFillCaretDownFill/>
   }
 
+  const handleStockSelect = (symbol) => {
+    navigate(`/detail/${symbol}`)
+  }
 
   return (
     <table className="table table-hover table-bordered mt-5">
@@ -65,7 +77,7 @@ const StockList = () => {
       <tbody>
         {stock.map((item, index) => {
           return (
-            <tr  key={index} className="table-row">
+            <tr onClick={() => handleStockSelect(item.name)} key={index} className="table-row" style={{cursor: "pointer"}}>
               <th scope="row">{index+1}</th>
               <td>{item.name}</td>
               <td>{item.data.c}</td>

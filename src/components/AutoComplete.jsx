@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 
 import { fetchSearchData } from "../api/fetchData";
+import useWatchListContext from "../hooks/useWatchListContext";
 
 const AutoComplete = () => {
   const [search, setSearch] = useState("");
   const [result, setResult] = useState([]);
+
+  const { addStock, deleteStock } = useWatchListContext();
 
   useEffect(() => {
     let isMounted = true;
@@ -44,8 +47,15 @@ const AutoComplete = () => {
         >
           {result.map((item, index) => {
             return (
-              <li className="dropdown-item" key={index}>
-                {item.description} {item.symbol}
+              <li
+                onClick={() => {
+                  addStock(item.symbol);
+                  setSearch("");
+                }}
+                className="dropdown-item"
+                key={index}
+              >
+                {item.description} ({item.symbol})
               </li>
             );
           })}
