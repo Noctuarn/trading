@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { fetchHistoricalData } from "../api/fetchData";
+import StockChart from "../components/StockChart";
 
 const formatData = (data) => {
   return data.t.map((el, index) => {
@@ -50,7 +51,15 @@ const StockDetailPage = () => {
     getData();
   }, [symbol]);
 
-  return <div></div>;
+  return (
+    <div>
+      {chartData && (
+        <div>
+          <StockChart chartData={chartData} symbol={symbol} />{" "}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default StockDetailPage;
