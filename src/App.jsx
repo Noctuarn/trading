@@ -12,7 +12,7 @@ function App() {
   const { darkTheme } = useWatchListContext();
 
   const appStyles = {
-    backgroundColor: darkTheme ? "#303845" : "#F4F5F7",
+    backgroundColor: darkTheme ? "#252a34" : "#F4F5F7",
   };
 
   return (

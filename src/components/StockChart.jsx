@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import Chart from "react-apexcharts";
 
+import useWatchListContext from "../hooks/useWatchListContext";
+
 const StockChart = ({ chartData, symbol }) => {
   const { day, week, year } = chartData;
   const [dateFormat, setDateFormat] = useState("24h");
+
+  const {darkTheme} = useWatchListContext();
 
   const determineTimeFromat = () => {
     switch (dateFormat) {
@@ -35,6 +39,7 @@ const StockChart = ({ chartData, symbol }) => {
       align: "center",
       style: {
         fontSize: "24px",
+        color: darkTheme ?  "white" : "black"
       },
     },
     chart: {
@@ -42,21 +47,47 @@ const StockChart = ({ chartData, symbol }) => {
       animation: {
         speed: 1300,
       },
-      // background: "black"
+      background: darkTheme ?  "#252a34" : "white"
     },
 
     xaxis: {
       type: "datetime",
       labels: {
-        datatimeUTC: false,
+        datetimeUTC: false,
+        style: {
+          colors: darkTheme ?  "white" : "black",
+          fontWeight: "bold"
+        }
+      },
+    },
+
+    yaxis: {
+      labels: {
+        style: {
+          colors: darkTheme ?  "white" : "black",
+          fontWeight: "bold"
+        }
       },
     },
 
     tooltip: {
       x: {
-        format: "MMM dd HH:MM",
-      },
+        format: "MMM DD HH:MM",
+      }
     },
+
+    theme: {
+      monochrome: {
+        enabled: false,
+        color: '#114b9d',
+        shadeTo: 'light',
+        shadeIntensity: 0.9
+      }
+    },
+
+    grid: {
+     
+    }
   };
 
   const series = [
@@ -80,7 +111,7 @@ const StockChart = ({ chartData, symbol }) => {
             setDateFormat("24h");
           }}
         >
-          24h
+          9 days
         </button>
         <button
           className={selectButtons("7d")}
@@ -88,7 +119,7 @@ const StockChart = ({ chartData, symbol }) => {
             setDateFormat("7d");
           }}
         >
-          7d
+          2 months
         </button>
         <button
           className={selectButtons("1y")}
@@ -96,7 +127,7 @@ const StockChart = ({ chartData, symbol }) => {
             setDateFormat("1y");
           }}
         >
-          6y
+          6 years
         </button>
       </div>
     </div>

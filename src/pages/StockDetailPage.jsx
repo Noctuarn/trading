@@ -22,26 +22,17 @@ const StockDetailPage = () => {
     const getData = async () => {
       const date = new Date();
       const currentDate = Math.floor(date.getTime() / 1000);
-
-      let oneDay;
-
-      if (date.getDay() === 0) {
-        oneDay = currentDate - 3 * 24 * 60 * 60;
-      } else if (date.getDay() === 6) {
-        oneDay = currentDate - 2 * 24 * 60 * 60;
-      } else {
-        oneDay = currentDate - 24 * 60 * 60;
-      }
-
+    
+      let oneDay = currentDate - 24 * 60 * 60;
       let oneWeek = currentDate - 7 * 24 * 60 * 60;
       let oneYear = currentDate - 365 * 24 * 60 * 60;
-
+    
       const responces = await Promise.all([
-        fetchHistoricalData(symbol, 60, oneDay, currentDate),
-        fetchHistoricalData(symbol, "D", oneWeek, currentDate),
-        fetchHistoricalData(symbol, "M", oneYear, currentDate),
+        fetchHistoricalData(symbol, "D", oneDay, currentDate), 
+        fetchHistoricalData(symbol, "W", oneWeek, currentDate), 
+        fetchHistoricalData(symbol, "M", oneYear, currentDate), 
       ]);
-
+    
       setChartData({
         day: formatData(responces[0]),
         week: formatData(responces[1]),
