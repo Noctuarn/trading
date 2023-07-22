@@ -1,10 +1,16 @@
 .main{
-    margin-bottom: 100px;
+    padding-bottom: 100px;
 }
 
 .btn-delete{
     visibility: hidden;
     display: inline-block;
+}
+
+.input{
+    border-radius: 15px;
+    padding: 15px;
+    width: 100%;
 }
 
 .table-row:hover .btn-delete{
@@ -22,7 +28,7 @@
 }
 
 .loading{
-    font-size: 3rem;
+    font-size: 3.2rem;
     position: relative;
 }
 

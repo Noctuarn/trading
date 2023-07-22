@@ -21,15 +21,15 @@ const StockChart = ({ chartData, symbol }) => {
   const selectButtons = (button) => {
     const classes = "btn btn-md ";
 
-    if(button === dateFormat){
+    if (button === dateFormat) {
       return classes + "btn-primary";
     } else {
       return classes + "btn-outline-primary";
     }
-  }
+  };
 
   const options = {
-   color: ["red"],
+    
     title: {
       text: symbol,
       align: "center",
@@ -42,6 +42,7 @@ const StockChart = ({ chartData, symbol }) => {
       animation: {
         speed: 1300,
       },
+      // background: "black"
     },
 
     xaxis: {
@@ -73,21 +74,24 @@ const StockChart = ({ chartData, symbol }) => {
       <Chart options={options} series={series} type="area" width="100%" />
 
       <div className="d-flex gap-2 mt-3">
-        <button className = {selectButtons("24h")}
+        <button
+          className={selectButtons("24h")}
           onClick={() => {
             setDateFormat("24h");
           }}
         >
           24h
         </button>
-        <button className = {selectButtons("7d")}
+        <button
+          className={selectButtons("7d")}
           onClick={() => {
             setDateFormat("7d");
           }}
         >
           7d
         </button>
-        <button className = {selectButtons("1y")}
+        <button
+          className={selectButtons("1y")}
           onClick={() => {
             setDateFormat("1y");
           }}

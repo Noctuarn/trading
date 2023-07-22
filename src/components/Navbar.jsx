@@ -4,7 +4,12 @@ import { Link } from "react-router-dom";
 import {BsFillSunFill} from "react-icons/bs"
 import {BsFillMoonFill} from "react-icons/bs"
 
+import useWatchListContext from "../hooks/useWatchListContext.jsx";
+
 const Navbar = () => {
+
+  const {darkTheme, themeToggler} = useWatchListContext();
+
   return (
     <nav className="bg-dark w-100 d-flex justify-content-between py-3 px-5">
       <Link to="/">
@@ -14,7 +19,9 @@ const Navbar = () => {
           alt=""
         />
       </Link>
-      <button style={{background: "transparent", border: "none", color: "white", fontSize: "2.5rem"}}>{<BsFillSunFill/>}</button>
+      <button onClick={themeToggler} style={{background: "transparent", border: "none", color: "white", fontSize: "2.5rem"}}>
+        {darkTheme ? <BsFillMoonFill/> : <BsFillSunFill/>}
+        </button>
     </nav>
   );
 };

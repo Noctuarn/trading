@@ -7,7 +7,13 @@ const AutoComplete = () => {
   const [search, setSearch] = useState("");
   const [result, setResult] = useState([]);
 
-  const { addStock, deleteStock } = useWatchListContext();
+  const { addStock, darkTheme } = useWatchListContext();
+
+  const inputTheme = {
+    backgroundColor: "transparent",
+    border: `3px solid ${darkTheme ? "white" : "black"}`,
+    color: `${darkTheme ? "white" : "black"}`
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -30,20 +36,19 @@ const AutoComplete = () => {
       <div className="form-floating dropdown">
         <input
           onChange={(e) => setSearch(e.target.value)}
-          className="form-control"
-          placeholder="search"
-          value={search}
-          type="text"
-          id="search"
+          className="input"
           autoComplete="off"
-          style={{ backgroundColor: "rgba(145, 158, 171, 0.04)" }}
+          type="text"
+          placeholder="Search..."
+          id="search"
+          style={inputTheme}
         />
-        <label htmlFor="search">Search</label>
+
         <ul
           style={{ height: "300px", cursor: "pointer" }}
           className={`dropdown-menu overflow-y-scroll ${
             result.length > 0 && "show"
-          }`}
+          } ${darkTheme ? "bg-dark" : "bg-light"}`}
         >
           {result.map((item, index) => {
             return (
@@ -52,6 +57,7 @@ const AutoComplete = () => {
                   addStock(item.symbol);
                   setSearch("");
                 }}
+                style={{ color: `${darkTheme ? "white" : "black"}` }}
                 className="dropdown-item"
                 key={index}
               >

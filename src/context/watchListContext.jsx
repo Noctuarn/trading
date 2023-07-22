@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const watchListContext = createContext();
 
@@ -9,6 +9,21 @@ export const WatchListProvider = ({ children }) => {
     "AMZN",
     "AAPL"
   ]);
+
+  const initialTheme = localStorage.getItem("darkTheme") === "true";
+  const [darkTheme, setDarkTheme] = useState(initialTheme);
+
+  const saveDarkThemeToLocalStorage = (value) => {
+    localStorage.setItem("darkTheme", value.toString());
+  };
+
+  useEffect(() => {
+    saveDarkThemeToLocalStorage(darkTheme);
+  }, [darkTheme]);
+
+  const themeToggler= () => {
+    setDarkTheme(!darkTheme);
+  }
 
   const addStock = (stock) => {
     if(watchList.indexOf(stock < 0)){
@@ -25,7 +40,7 @@ export const WatchListProvider = ({ children }) => {
   };
 
   return (
-    <watchListContext.Provider value={{ watchList, addStock, deleteStock }}>
+    <watchListContext.Provider value={{ watchList, addStock, deleteStock, darkTheme, themeToggler}}>
       {children}
     </watchListContext.Provider>
   );

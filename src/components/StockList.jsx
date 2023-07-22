@@ -10,9 +10,13 @@ import { BsFillCaretUpFill } from "react-icons/bs";
 const StockList = () => {
   const [stock, setStock] = useState([]);
 
-  const { watchList, deleteStock } = useWatchListContext();
+  const { watchList, deleteStock, darkTheme } = useWatchListContext();
 
   const navigate = useNavigate();
+
+  const tableStyle = {
+    color: darkTheme ? "white" : "black"
+  }
 
   const getData = async () => {
     const promises = watchList.map(async (symbol) => {
@@ -57,8 +61,8 @@ const StockList = () => {
   };
 
   return (
-    <table className="table table-hover table-bordered mt-5">
-      <thead className="table-dark" style={{ color: "rgb(79,89,102)" }}>
+    <table className={`table table-bordered mt-5 ${darkTheme ? "table-dark" : "table-light"}`}>
+      <thead style={{ color: "rgb(79,89,102)" }}>
         <tr>
           <th scope="col">№</th>
           <th scope="col">Name</th>
